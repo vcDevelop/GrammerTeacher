@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<head>
+  <title>Flashcards Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css\flashh.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+  <script src="https://use.fontawesome.com/2d89f1af84.js"></script>
+</head>
+<body>
+  
+  <header class="header" id="header"></header>
+  
+  <main class="main">
+  
+  </main>
+  
+  <div class="modal"></div>
+  
+  
+  <!--- Handlebars Templates --->
+  
+  <script id="headerTemplate" type="text/x-handlebars-template">
+    {{#if backlink}}
+      <a href="#" class="header__link header__link--left1 fa fa-home"></a>
+    {{/if}}
+    {{#if editing}}
+      <input class="header__title header__title--edit" value="{{title}}">
+      <a class="header__link header__link--right1 fa fa-caret-square-o-right" href='#/train/{{name}}'></a>
+      <i id="deckSettings" class="header__link header__link--right2 fa fa-cog" data-name='{{name}}'></i>
+    {{else}}
+      <h1 class="header__title{{#unless backlink}} header__title--main{{/unless}}">{{shorttitle}}</h1>
+      {{#if backlink}}
+        <i id="flip" class="fa fa-exchange header__link header__link--right2" aria-label="flip deck" title="flip deck"></i>
+        <a href="#/edit/{{this.name}}" class="fa fa-pencil-square-o header__link header__link--right1"  title="edit deck"></a>
+      {{/if}}
+    {{/if}}
+  </script>
+  
+  <script id="selectTemplate" type="text/x-handlebars-template">
+    <nav class="deckmenu">
+      {{#each deck}}
+        <div class="deckmenu__container">
+					<div class="deckmenu__padding"></div>
+          <a href='#/edit/{{this.name}}' class='deckmenu__editlink fa fa-pencil-square-o fa-lg' title="edit deck"></a>
+          <a href="#/train/{{this.name}}" class="deckmenu__deck">
+            <h2 class="deckmenu__title">{{this.shortname}}</h2>
+						<p class="deckmenu__difficulty" title="difficulty">{{#difficon this.averageDifficulty}}{{/difficon}}</p>
+						<p class="deckmenu__length">{{this.cardLength}} cards</p>
+          </a>
+        </div>
+      {{/each}}
+      <div class="deckmenu__container">
+				<div class="deckmenu__padding"></div>
+        <a href="#/editnew" class="deckmenu__deck deckmenu__deck--new">
+          <i class="deckmenu__title fa fa-plus fa-2x" aria-hidden="true" title="new deck"></i>
+        </a>
+      </div>
+    </nav>
+  </script>
+
+  <script id="trainTemplate" type="text/x-handlebars-template">
+    <div class="progress"></div>
+    <div class="card" id="card">
+      <div class="card__stack card__stack--1"></div>
+      <div class="card__stack card__stack--2"></div>
+      <div id="maincard">
+        <div class="card__side card__side--question"></div>
+        <div class="card__side card__side--answer"></div>
+      </div>
+    </div>
+    <div class="score js-hidden"></div>
+    <div class="answer">
+      <input type="text" class="answer__input">
+      <button id="checkAnswer" class="button button--submit" type="button">Go ></button>
+      <div id="nextButtons" class="answer__next js-hidden">
+        {{#if autocheck}}
+          <button id="nextCard" class="button button--next" type="button">Next</button>
+        {{/if}}
+        {{#unless autocheck}}
+          <button id="wrongAnswer" class="button button--selfcheck" type="button">
+            <i class="fa fa-times" aria-hidden="true"></i>
+            I was wrong
+          </button>
+          <button id="correctAnswer" class="button button--selfcheck" type="button">
+            <i class="fa fa-check" aria-hidden="true"></i>
+            I was right
+          </button>
+        {{/unless}}
+      </div>
+    </div>
+    <button id="retry" class="button button--retry js-hidden">Retry Wrong Answers</button>
+    <button id="shuffle" class="button button--shuffle">Shuffle and Start Again</button>
+  </script>
+  
+  <script id="questionTemplate" type="text/x-handlebars-template">
+    <div class="card__difficulty">
+      <p>Difficulty:</p>
+      <p>
+				{{#difficon difficulty}}
+				{{/difficon}}
+			</p>
+    </div>
+    <p class="card__text">{{question}}</p>
+    <div class="card__success card__success--hidden"></div>
+  </script>
+  
+  <script id="answerTemplate" type="text/x-handlebars-template">
+    <div class="card__difficulty {{#if autocheck}}card__difficulty--{{outcome}}{{/if}}">
+      <p>Difficulty:</p>
+      <p>{{#difficon difficulty}}{{/difficon}}</p>
+    </div>
+    <p class="card__text">
+      {{#each answers}}
+        {{this}}<br>
+      {{/each}}
+    </p>
+    {{#if autocheck}}
+      <div class="card__success {{#if outcome}}card__success--correct{{else}}card__success--incorrect{{/if}}"></div>
+    {{/if}}
+  </script>
+  
+  <script id="scoreTemplate" type="text/x-handlebars-template">
+    <p>All done!</p>
+		<canvas id="scoreChart" width="300" height="300"></canvas>
+    <p class="score__text">{{correct}} / {{total}}</p>
+  </script>
+  
+  <script id="progressTemplate" type="text/x-handlebars-template">
+    {{#each bars}}
+      <div class="progress__step progress__step--{{this}}">
+				{{#progressicon this}}{{/progressicon}}
+			</div>
+    {{/each}}
+  </script>
+  
+  <script id="editCardTemplate" type="text/x-handlebars-template">
+    <div id="card-{{index}}" data-index="{{index}}" class="cardline cardline--edit">
+      <input class=" side1 cardline__input" type="text" placeholder="Side 1" value="{{side1}}">
+      <input class="side2 cardline__input"  type="text" placeholder="Side 2" value="{{side2}}">
+      <select class="diff cardline__select" type="number">
+        {{#diffselect difficulty}}
+        <option value='' disabled>Difficulty</option>
+        <option value=0>0</option>
+        <option value=1>1</option>
+        <option value=2>2</option>
+        <option value=3>3</option>
+        <option value=4>4</option>
+        <option value=5>5</option>
+        <option value=6>6</option>
+        <option value=7>7</option>
+        <option value=8>8</option>
+        <option value=9>9</option>
+        <option value=10>10</option>
+        {{/diffselect}}
+      </select>
+      <div class="cardline__delete">
+        <i class="deleteCard fa fa-trash-o cardline__delete fa-lg"></i>
+      </div>
+      </div>
+  </script>
+  
+  <script id="addCardTemplate" type="text/x-handlebars-template">
+    <div id="addCard" class="cardline cardline--new">
+      New card<i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+    </div>
+  </script>
+  
+  <script id="modalTemplate" type="text/x-handlebars-template">
+    <div class="modal__content" data-name='{{name}}'>
+      <i class="modal__close fa fa-window-close fa-lg"></i>
+      <p class="modal__row">
+        Show this side first:
+        <select id="sideselect" class="modal__select" type="text">
+          <option value='side1'>Side 1</option>
+          <option value='side2' {{#if isSide2}}selected{{/if}}>Side 2</option>
+        </select>
+      </p>
+      <p class="modal__row">
+        Only display first possible answer
+        <label class="modal__switch">
+          <input id="firstanswer" class="modal__checkbox" type="checkbox" {{#if firstanswer}}checked{{/if}}>
+          <span class="modal__slider"></span>
+        </label>
+      </p>
+      <p class="modal__row">
+        Automatically mark answers
+        <label class="modal__switch">
+          <input id="autocheck" class="modal__checkbox" type="checkbox" {{#if autocheck}}checked{{/if}}>
+          <span class="modal__slider"></span>
+        </label>
+      </p>
+      <p class="modal__row">
+        Permanently delete:
+        <button id="deleteDeck" class="button modal__button" data-name='{{name}}'>
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        Delete Deck
+      </button>
+      </p>
+    </div>
+  </script>
+  
+  
+  <!--- /Handlebars Templates --->
+
+  <script type="text/javascript" src="https://rawgit.com/gwensw/flashcards-js/master/flashcards.js"></script>
+  <script type="text/javascript" src="js/setup.js"></script>
+  <script type="text/javascript" src="https://rawgit.com/flatiron/director/master/build/director.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+	<script type="text/javascript" src="js/screenfull.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>
+</body>

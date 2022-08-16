@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<head>
+ 
+    <title>Hangman Game</title>
+    
+    <meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+ 	<script src="jquery.js"></script>
+    
+ 
+</head>
+<body>
+
+<div id="topbar">Hangman Game</div>
+<div class="spacer"></div>
+
+<div id="gameContent">
+
+ 
+</div>
+<style>
+    html,   body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    background:linear-gradient(120deg,#c3c9ca 50%, #95b5ca 50%);
+}
+#topbar{
+ height:50px;
+ margin:auto;
+ margin-top:50px;
+ color:rgb(23, 23, 23);
+ font-size:36px;
+ width:800px;
+ border-bottom:solid white 1px;
+}
+
+#gameContent{
+ margin:auto;	
+ width:800px;
+ height:400px;
+ position:relative;
+ overflow:hidden;
+ background-color:#5497c4;
+}
+
+.spacer{height:30px;}
+
+
+
+
+#gameTitle{
+ margin-top:100px;
+ text-align:center;
+ font-size:40px;
+ color:rgb(19, 19, 19);}
+
+.button{font-size:17px;
+ width:100px;
+ margin:auto;
+ margin-top:20px;
+ cursor:pointer;
+ border:solid 1px white;
+ border-radius:4px;
+ text-align:center;
+ color:#fff;}
+
+.button:hover{
+ background-color:#6AB0FD;}
+
+#replay{
+ margin-left:0px;}
+ 
+
+
+
+
+
+#wordHolder{
+ margin-top:50px;
+ margin-left:150px;
+}
+ 
+#clueHolder{
+ margin-top:130px;
+ margin-left:50px;
+}
+ 
+#guesses{
+ margin-top:20px;
+ margin-left:90px;
+}
+ 
+#pixHolder{
+ margin-left:30px;
+ width:75px;
+ float:left;
+ overflow:hidden;
+}
+ 
+#pixHolder img{
+ position:relative;}
+ 
+#feedback{
+ margin-top:20px;
+ margin-left:150px;
+ font-size:34px;
+ color:#fff;
+}
+ 
+.tile{
+ height:40px;
+ width:40px;
+ float:left;
+ margin-right:10px;
+ background-color:white;
+ text-align:center;
+ font-size:24px;
+ color:#333;
+ padding-top:5px;
+}
+ 
+#finalMessage{
+ text-align:center;
+ font-size:40px;
+ color:#fff;
+ width:90%;
+ margin:auto;
+ margin-top:100px;
+}
+ 
+#dummy{
+ position:absolute;
+ left:-200px;
+ top:0px;
+}
+ 
+@media screen and (max-width:800px) {
+ #topbar{
+	 margin-left:1%;
+	 margin-right:1%;	
+	 width:96%;
+ }
+ #gameContent{
+	 margin:1%;	
+	 width:98%;
+ }
+ .tile{
+	 height:20px;
+	 width:20px;
+	 font-size:14px;
+ }
+}
+ 
+@media screen and (max-width:560px) {
+ #wordHolder{
+	 margin-top:10px;
+	 margin-left:10px;
+ }
+ #clueHolder{
+	 margin-top:130px;
+	 margin-left:85px;
+ }
+ #guesses{
+	 margin-top:20px;
+	 margin-left:85px;
+ }
+ #pixHolder{
+	 margin-top:50px;
+	 margin-left:10px;
+	 position:absolute;
+ }
+ #feedback{
+	 margin-left:85px;
+	 font-size:28px;
+ }
+ #finalMessage{
+	 font-size:30px;
+ }
+}
+</style>
+<script>
+    $(document).ready(function () {
+	
+	var questionBank=new Array;
+	var wordArray=new Array;
+	var previousGuesses=new Array;
+ 	var currentWord;
+	var currentClue;
+	var wrongAnswerCount;
+	
+ 
+ 
+ 		$.getJSON('quizbank.json', function(data) { 
+
+		for(i=0;i<data.wordlist.length;i++){ 
+			questionBank[i]=new Array;
+			questionBank[i][0]=data.wordlist[i].word;
+			questionBank[i][1]=data.wordlist[i].clue;
+		}
+		titleScreen();
+		})//gtjson
+ 
+function titleScreen(){
+	$('#gameContent').append('<div id="gameTitle">HANGMAN</div><div id="startButton" class="button">BEGIN</div>');		
+	$('#startButton').on("click",function (){gameScreen()});
+}//display game
+	
+	
+	
+function gameScreen(){
+	$('#gameContent').empty();
+	$('#gameContent').append('<div id="pixHolder"><img id="hangman" src="man.png"></div>');
+	$('#gameContent').append('<div id="wordHolder"></div>');
+	$('#gameContent').append('<div id="clueHolder"></div>');
+	$('#gameContent').append('<div id="guesses">Previous guesses:</div>');
+	$('#gameContent').append('<div id="feedback"></div>');
+	$('#gameContent').append('<form><input type="text" id="dummy" ></form>');
+			
+	getWord();
+	var numberOfTiles=currentWord.length;
+	wrongAnswerCount=0;
+	previousGuesses=[];
+			 
+	for(i=0;i<numberOfTiles;i++){
+		$('#wordHolder').append('<div class="tile" id=t'+i+'></div>');
+	}
+			
+	$('#clueHolder').append("Q: "+currentClue);
+ 
+ 	
+	$(document).on("keyup",handleKeyUp);
+	$(document).on("click",function(){$('#dummy').focus();});
+	$('#dummy').focus();
+}//gamescreen
+			
+			
+function getWord(){
+	var rnd=Math.floor(Math.random()*questionBank.length);
+	currentWord=questionBank[rnd][0];
+	currentClue=questionBank[rnd][1];
+	questionBank.splice(rnd,1); 
+	wordArray=currentWord.split("");
+	console.log(rnd);			
+}//getword
+			
+
+			
+			
+function handleKeyUp(event) {
+	
+	//this line deals with glitch in recent versions of android
+	if(event.keyCode==229){event.keyCode=$('#dummy').val().slice($('#dummy').val().length-1,$('#dummy').val().length).toUpperCase().charCodeAt(0);}
+		
+	if(event.keyCode>64 && event.keyCode<91){
+		var found=false;
+		var previouslyEntered=false;
+		var input=String.fromCharCode(event.keyCode).toLowerCase();
+		
+	
+		for(i=0;i<previousGuesses.length;i++){if(input==previousGuesses[i]){previouslyEntered=true;}}
+				
+		if(!previouslyEntered){
+			previousGuesses.push(input);
+			for(i=0;i<wordArray.length;i++){
+				if(input==wordArray[i]){found=true;$('#t'+i).append(input);}	
+			}//for
+				
+			if(found){checkAnswer();}
+			else{wrongAnswer(input);}
+		}//if
+	}//if
+}//handlekeyup
+	
+
+function checkAnswer(){
+	var currentAnswer="";	
+	for(i=0;i<currentWord.length;i++){
+		currentAnswer+=($('#t'+i).text());
+	}		
+	if(currentAnswer==currentWord){
+		victoryMessage();
+	};
+}//checkanswer
+		
+function wrongAnswer(a){
+	wrongAnswerCount++;
+	var pos=(wrongAnswerCount*-75) +"px"
+	$('#guesses').append("  "+a);
+	$('#hangman').css("left",pos);
+	if(wrongAnswerCount==6){
+		defeatMessage();}
+}//wronganswer
+		
+function victoryMessage(){
+	document.activeElement.blur();
+	$(document).off("keyup", handleKeyUp);
+	$('#feedback').append("CORRECT!<br><br><div id='replay' class='button'>CONTINUE</div>");
+	$('#replay').on("click",function (){
+		if(questionBank.length>0){
+			gameScreen()}
+		else{finalPage()}
+	});
+}//victory
+		
+function defeatMessage(){
+	document.activeElement.blur();
+	$(document).off("keyup", handleKeyUp);
+	$('#feedback').append("You're Dead!<br>(answer= "+ currentWord +")<div id='replay' class='button'>CONTINUE</div>");
+	$('#replay').on("click",function (){
+		if(questionBank.length>0){
+			gameScreen()}
+		else{finalPage()}
+	});
+}//defeat
+
+function finalPage(){
+	$('#gameContent').empty();
+	$('#gameContent').append('<div id="finalMessage">You have finished all the words in the game!</div>');
+}//finalpage
+	
+	});//doc ready
+</script>
+ 
+
+
+
+</body>
+</html>
