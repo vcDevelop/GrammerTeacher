@@ -5,25 +5,24 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
 </head>
 
 <body>
     <div>
-        <!-- <input type="text"id="Fname" placeholder="First Name :" required/>
-        <br><br>
-        <input type="text"id="Lname" placeholder="Last Name :" required/>
-        <br><br> -->
-        <form action="name.php" method="post">
+        <form onsubmit="uploadMedia()">
         <input type="text"id="videoT" placeholder="Video Title :"required>
         <br><br>
         <input type="text"id="playlist" placeholder="Playlist :"required/>
         <br><br>
         <input type="file" id="fileToUpload" required/>
-        <button onclick="uploadMedia()"> upload</button>
+        <button type="submit" onclick="uploadMedia()"> upload</button> 
         <br><br>
+    </form>
+    <form action="name.php" method="post">
     <button id="okbutton" type="submit"> ok</button>
     </form>
+    
+    <!-- </form> -->
     </div>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.726.0.min.js"></script>
     <script src='main.js'></script>

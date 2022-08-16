@@ -1,6 +1,6 @@
 let isConfigUpdate = false;
 let reader = new FileReader();
-
+document.getElementById("okbutton").style.visibility = "hidden";
 async function uploadToS3Bucket(stream, credential, cd) {
     try {
         if (!window.AWS) {
@@ -38,6 +38,7 @@ async function uploadToS3Bucket(stream, credential, cd) {
         document.cookie = "username="+s;
         document.cookie = "vtitle="+vtitle;
         document.cookie = "playlist="+playlist;
+        document.getElementById("okbutton").style.visibility = "visible";
         return uploadItem;
     }
     catch (error) {
