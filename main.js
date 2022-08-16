@@ -45,11 +45,6 @@ async function uploadToS3Bucket(stream, credential, cd) {
     }
 
 }
-// function VideoDetails() {
-//     let name;
-//     name=document.getElementById("FirstName").value;
-//     document.write(name);
-// }
 
 function getUploadingProgress(uploadSize, totalSize) {
     let uploadProgress = (uploadSize / totalSize) * 100;
