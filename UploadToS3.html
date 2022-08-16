@@ -9,19 +9,17 @@
 
 <body>
     <div>
-        <form onsubmit="uploadMedia()">
+        <form action="name.php"onsubmit="uploadMedia()">
         <input type="text"id="videoT" placeholder="Video Title :"required>
         <br><br>
         <input type="text"id="playlist" placeholder="Playlist :"required/>
         <br><br>
         <input type="file" id="fileToUpload" required/>
-        <button type="submit" onclick="uploadMedia()"> upload</button> 
+        <button type="button" onclick="uploadMedia()"> upload</button> 
         <br><br>
+        <button id="okbutton" type="submit"> ok</button>
+        <!-- <br><br> -->
     </form>
-    <form action="name.php" method="post">
-    <button id="okbutton" type="submit"> ok</button>
-    </form>
-    
     <!-- </form> -->
     </div>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.726.0.min.js"></script>

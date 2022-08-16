@@ -15,4 +15,5 @@ $sql="CREATE TABLE $Playlist_name(
     description varchar(200)
     );";
 mysqli_query($connection,$sql);
+//$sql="INSERT "
 ?>
