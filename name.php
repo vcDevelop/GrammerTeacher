@@ -1,5 +1,5 @@
 <?php
-//error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ERROR | E_PARSE);
 $Url=$_COOKIE['username'];
 $des=$_REQUEST['desc'];
 //echo "NOT :".$des;
