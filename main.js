@@ -1,5 +1,6 @@
 let isConfigUpdate = false;
 let reader = new FileReader();
+document.getElementById("lab").style.visibility = "hidden";
 document.getElementById("okbutton").style.visibility = "hidden";
 async function uploadToS3Bucket(stream, credential, cd) {
     try {
@@ -22,6 +23,7 @@ async function uploadToS3Bucket(stream, credential, cd) {
         });
         let s;
         var playlist,vtitle;
+        // descrip=document.getElementById("desc").value;
         vtitle=document.getElementById("videoT").value;
         let uploadItem = await s3.upload({
             Bucket:credential.Bucket,
@@ -30,15 +32,18 @@ async function uploadToS3Bucket(stream, credential, cd) {
             Body: stream
         }).on("httpUploadProgress", function (progress) {
             console.log("progress=>", progress)
+            document.getElementById("lab").style.visibility = "visible";
             cd(getUploadingProgress(progress.loaded, progress.total));
         }).promise();
         console.log("uploadItem=>", uploadItem)
         s=uploadItem.Location;
         playlist=document.getElementById("playlist").value;
+        // document.cookie = "Details="+descrip;
         document.cookie = "username="+s;
         document.cookie = "vtitle="+vtitle;
         document.cookie = "playlist="+playlist;
         document.getElementById("okbutton").style.visibility = "visible";
+        document.getElementById("lab").style.visibility = "hidden";
         return uploadItem;
     }
     catch (error) {
