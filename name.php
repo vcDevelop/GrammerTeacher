@@ -2,7 +2,6 @@
 error_reporting(E_ERROR | E_PARSE);
 $Url=$_COOKIE['username'];
 $des=$_REQUEST['desc'];
-//echo "NOT :".$des;
 $db=$_COOKIE['dbname'];
 $VideoTitle=$_COOKIE['vtitle'];
 $Playlist_name=$_COOKIE['playlist'];
