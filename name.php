@@ -1,9 +1,12 @@
 <?php
-error_reporting(E_ERROR | E_PARSE);
+//error_reporting(E_ERROR | E_PARSE);
 $Url=$_COOKIE['username'];
+$des=$_REQUEST['desc'];
+//echo "NOT :".$des;
 $db=$_COOKIE['dbname'];
 $VideoTitle=$_COOKIE['vtitle'];
 $Playlist_name=$_COOKIE['playlist'];
+//echo "Desc :".$desc;
 $connection= mysqli_connect("localhost", "root", "", "$db");
 if (!$connection) {
     echo "<script> alert('Teacher does not exist !!!') </script>";
@@ -12,8 +15,12 @@ if (!$connection) {
 $sql="CREATE TABLE $Playlist_name(
     id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title varchar(50),
-    description varchar(200)
+    de varchar(200),
+    Video_url varchar(50) PRIMARY KEY
     );";
 mysqli_query($connection,$sql);
-//$sql="INSERT "
+$sql="INSERT INTO $Playlist_name 
+(id,title,de,Video_url) 
+VALUES ('','$VideoTitle','$des','$Url')";
+mysqli_query($connection,$sql);
 ?>

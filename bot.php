@@ -64,7 +64,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
         </div>
         <div class="typing-field">
             <div class="input-data">
-                <input id="data" type="text" placeholder="Type something here.." required>
+                <input id="data" type="text" placeholder="Type something here.."/>
                 <button id="send-btn">Send</button>
             </div>
         </div>
