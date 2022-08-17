@@ -1,6 +1,9 @@
 let isConfigUpdate = false;
+let s;
 let reader = new FileReader();
 document.getElementById("lab").style.visibility = "hidden";
+document.getElementById("view").style.visibility = "hidden";
+document.getElementById("myVideo").style.visibility = "hidden";
 document.getElementById("okbutton").style.visibility = "hidden";
 async function uploadToS3Bucket(stream, credential, cd) {
     try {
@@ -21,7 +24,7 @@ async function uploadToS3Bucket(stream, credential, cd) {
                 Bucket: credential.Bucket
             })
         });
-        let s;
+        //let s;
         var playlist,vtitle;
         // descrip=document.getElementById("desc").value;
         vtitle=document.getElementById("videoT").value;
@@ -44,12 +47,18 @@ async function uploadToS3Bucket(stream, credential, cd) {
         document.cookie = "playlist="+playlist;
         document.getElementById("okbutton").style.visibility = "visible";
         document.getElementById("lab").style.visibility = "hidden";
+        document.getElementById("view").style.visibility = "visible";
+        document.getElementById("myVideo").style.visibility = "visible";
         return uploadItem;
     }
     catch (error) {
         console.log(error)
     }
 
+}
+function viewVideo(){
+    //var vid = document.getElementById("myVideo").src;
+    document.getElementById("myVideo").src=s;
 }
 
 function getUploadingProgress(uploadSize, totalSize) {
