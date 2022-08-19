@@ -16,6 +16,7 @@ $sql="CREATE TABLE $Playlist_name(
     de varchar(200),
     Video_url varchar(50)
     );";
+    //vivek
 mysqli_query($connection,$sql);
 $sql="INSERT INTO $Playlist_name 
 (id,title,de,Video_url) 
