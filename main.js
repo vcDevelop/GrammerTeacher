@@ -25,8 +25,7 @@ async function uploadToS3Bucket(stream, credential, cd) {
             })
         });
         //let s;
-        var playlist,vtitle;
-        // descrip=document.getElementById("desc").value;
+        var playlist,vtitle,option,select,option1,select1;
         vtitle=document.getElementById("videoT").value;
         let uploadItem = await s3.upload({
             Bucket:credential.Bucket,
@@ -41,7 +40,6 @@ async function uploadToS3Bucket(stream, credential, cd) {
         console.log("uploadItem=>", uploadItem)
         s=uploadItem.Location;
         playlist=document.getElementById("playlist").value;
-        // document.cookie = "Details="+descrip;
         document.cookie = "username="+s;
         document.cookie = "vtitle="+vtitle;
         document.cookie = "playlist="+playlist;
@@ -49,9 +47,15 @@ async function uploadToS3Bucket(stream, credential, cd) {
         document.getElementById("lab").style.visibility = "hidden";
         document.getElementById("view").style.visibility = "visible";
         document.getElementById("myVideo").style.visibility = "visible";
+        select = document.getElementById('level');
+		option = select.options[select.selectedIndex].value;//option is option
+        document.cookie = "levelOp="+option;
+        select1 = document.getElementById('Language');
+		option1 = select1.options[select1.selectedIndex].value;//option is option
+        document.cookie = "Langu="+option1;
         return uploadItem;
     }
-    catch (error) {
+    catch (error){
         console.log(error)
     }
 

@@ -3,10 +3,9 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Video upload</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
-
 <body>
     <div>
         <form action="name.php"onsubmit="uploadMedia()">
@@ -16,15 +15,30 @@
         <br><br>
         <textarea id="desc"name="desc"rows="2">
         </textarea>
-        <br><br> 
-        <input type="file" id="fileToUpload" required/>
+        <br><br>
+        <label for="Language">Language:</label>
+        <select id = "Language" name="lang">
+            <option>--Choose--</option>
+            <option> English </option>
+            <option> Hindi </option>
+            <option> Marathi </option>
+            <option> Tamil </option>
+            </select>
+        <br><br>
+        <label for="level">level:</label>
+        <select id="level" required >
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+        </select>
+        <br><br>
+        <label>Video : &nbsp;&nbsp;</label><input type="file" id="fileToUpload" required/>
         <button type="button" onclick="uploadMedia()"> upload</button>
         <label id="lab">Wait</label>
         <br><br>
         <p id="demo"></p>
         <button id="okbutton" type="submit"> ok</button>
     </form>
-    <!-- https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_av_prop_src2 -->
     <video id="myVideo" width="320" height="240" controls src="">
     </video>
     <button id="view" onclick="viewVideo()">View</button>
