@@ -9,7 +9,7 @@ $conn = mysqli_connect("localhost", "root","", "$db");
          $username =strtolower($_REQUEST['teacher_Name']);
          $password =$_REQUEST['teacher_Password'];
          $mn=strtolower($_REQUEST['teacher_sure']);
-         $sql="INSERT INTO teacher_signup (teacher_Name, teacher_Email , teacher_password,OTP) VALUES ('$username','$signup_email','$password')";
+         $sql="INSERT INTO teacher_signup (teacher_Name, teacher_Email , teacher_password,OTP) VALUES ('$username','$signup_email','$password','0')";
 mysqli_query($conn, $sql);
 $username=$username.'_'.$mn;
 // $sql="CREATE DATABASE $username";

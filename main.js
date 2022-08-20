@@ -1,5 +1,9 @@
 let isConfigUpdate = false;
 let s;
+var option,select;
+var d = Math.random().toString(36).substring(2,7);
+//option = select.options[select.selectedIndex].value;//option is option
+//document.write(option);
 let reader = new FileReader();
 document.getElementById("lab").style.visibility = "hidden";
 document.getElementById("view").style.visibility = "hidden";
@@ -25,11 +29,12 @@ async function uploadToS3Bucket(stream, credential, cd) {
             })
         });
         //let s;
-        var playlist,vtitle,option,select,option1,select1;
+        var playlist,vtitle,option1,select1;
+        select = document.getElementById('level').value;
         vtitle=document.getElementById("videoT").value;
         let uploadItem = await s3.upload({
             Bucket:credential.Bucket,
-            Key:vtitle,//sample name
+            Key:select+"/"+d+vtitle,//sample name
             ContentType: document.getElementById("fileToUpload").files[0].type,
             Body: stream
         }).on("httpUploadProgress", function (progress) {
@@ -47,12 +52,13 @@ async function uploadToS3Bucket(stream, credential, cd) {
         document.getElementById("lab").style.visibility = "hidden";
         document.getElementById("view").style.visibility = "visible";
         document.getElementById("myVideo").style.visibility = "visible";
-        select = document.getElementById('level');
-		option = select.options[select.selectedIndex].value;//option is option
+        // select = document.getElementById('level');
+		// option = select.options[select.selectedIndex].value;//option is option
         document.cookie = "levelOp="+option;
         select1 = document.getElementById('Language');
 		option1 = select1.options[select1.selectedIndex].value;//option is option
         document.cookie = "Langu="+option1;
+        //document.write(option);
         return uploadItem;
     }
     catch (error){

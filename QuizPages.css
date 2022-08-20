@@ -1,0 +1,153 @@
+button {
+   border: none;
+   width: 130px;
+   height: 60px;
+   outline: none;
+   min-width: 200px;
+   font-weight: 700;
+}
+
+
+
+/* StartPage Style  */
+.StartPage {
+   color: aliceblue;
+   font-family: 'Montserrat', sans-serif;
+   height: 100vh;
+   text-align: center;
+}
+.StartBox {
+   
+}
+.StartPage .title{
+   font-family: 'Montserrat', sans-serif;
+   font-weight: 500;
+   font-size: 42px;
+   border-bottom: 5px solid white;
+}
+.StartPage .rules {
+   margin: 30px 0px;
+}
+.StartPage .rules h3{
+   font-size: 26px;
+   margin: 15px;
+}
+.StartButton {
+   background: white;
+   color: #2c3e50;
+   font-size: 23px;
+   border: 2px solid white;
+   border-radius: 7px;
+   box-shadow: 0px 0px 25px 10px rgba(255,255,255,0.6);
+
+}
+.StartButton:hover {
+   background: #2c3e50;
+   color: white;
+
+}
+/* ///////////////  */
+
+
+
+
+
+
+
+/* QuizPage Style  */
+.QuizPage {
+   font-family: 'Montserrat', sans-serif;
+   min-height: 100vh;
+}
+.Quiz_form{
+   min-height: 100vh;
+   height: 100%;
+}
+.quiz_box {
+   padding: 20px;
+   margin-top: 100px;
+}
+/* Score Style  */
+.ScoreMassage {
+   background: white;
+   border-radius: 5px;
+   padding: 12px;
+   position: absolute;
+   top: 0px;
+   margin: 20px;
+}
+
+/* Question Style  */
+.Number_Beside_question {
+   color: #C9C9C8;
+   font-size: 24px;
+}
+.question {
+   font-family: 'Montserrat', sans-serif;
+   color: white;
+   font-size: 30px;
+   text-align: center;
+   margin-bottom: 100px;
+}
+/* ///////////////  */
+   
+
+
+   
+/* options Style  */
+
+/* this is a div for All options */
+.Buttons_Div {
+  
+}
+/* you can change all options style */
+.options {
+   background: white;
+   font-family: 'Montserrat', sans-serif;
+   border-radius: 6px;
+   font-size: 22px;
+   margin: 10px;
+   color: #2c3e50;
+   border: 2px solid white;
+   box-shadow: 0px 0px 25px 10px rgba(255,255,255,0.5);
+}
+.options:hover {
+   background: #2c3e50;
+   color: white;
+   box-shadow: 0px 0px 25px 10px rgba(255,255,255,0.6);
+}
+/*or you can make a custom style for each button */
+/*
+.option1 {
+   color: white;
+   background: #3498db;
+}
+*/
+/* ///////////////  */
+
+
+
+
+
+.EndPage {
+   color: aliceblue;
+   font-family: 'Montserrat', sans-serif;
+   height: 100vh;
+   text-align: center;
+}
+.End_Box {
+   box-shadow: 0px 0px 25px 10px rgba(255,255,255,0.6);
+   padding: 10%;
+}
+.EndPage h1{
+   font-size: 80px;
+   
+}
+.EndPage h2{
+   font-size: 35px;
+}
+
+
+
+
+
