@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ERROR | E_PARSE);
 $db="allvideos";
 $connection= mysqli_connect("localhost", "root", "", "$db");
 $sql="SELECT COUNT(*) playlist FROM allvideos";
