@@ -1,7 +1,6 @@
 <!-- INCLUDE DATABASE HERE -->
 <?php include "data.php" ?>
 <?php include "ControlPanel.php" ?>
-
 <?php 
 session_start();
 
@@ -35,10 +34,6 @@ session_start();
             }
 
    }
-
-
-//this function make random array
-// you shouldn't edit anything here
 function Random_array () {
    global $Number_Of_Questions;
    global $Allquestions;
@@ -62,12 +57,10 @@ function percentScore() {
    global $Number_Of_Questions;
    $score = $_SESSION['score'];
    $name ='lel';
-
    $percentScore = ($score*100)/$Number_Of_Questions;
-   
    // after fixed mean it make the value with two Numbers after point ( 65.4326520978 => 65.43 )
    $percentScore_afterFixed = number_format((float)$percentScore, 2, '.', '');
-   if ($percentScore_afterFixed >=30 && $percentScore_afterFixed<=60){
+   if ($percentScore_afterFixed >=0 && $percentScore_afterFixed<=60){
       echo  $percentScore_afterFixed . "%"."<br><b>Beginner level </b>" ;
       $cookie_value="Beginner";
    }

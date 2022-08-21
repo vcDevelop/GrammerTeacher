@@ -10,7 +10,7 @@ $conn = mysqli_connect("localhost", "root", "", "test");
          $result = mysqli_query($conn, $sql);
          $count = mysqli_num_rows($result);  
          if($count == 1){  
-             include 'level.php'; 
+             include 'Std_index.html'; 
          }  
          else if($count !=1 && $username !=null){  
                       include 'Login.html';

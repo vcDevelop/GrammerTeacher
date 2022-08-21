@@ -65,7 +65,7 @@
       <div class="End_Box col-12 col-md-6">
          <h1><?php echo $_COOKIE['lel'];echo"<br>"; percentScore();  ?></h1>
          <h2>your score is <?php echo "$score".' of '."$Number_Of_Questions" ;?></h2>
-          <form method="POST" action="Std_index.html">
+          <form method="POST" action="login.html">
     <input type="submit" value = "Ok"/>   
       </div>
     

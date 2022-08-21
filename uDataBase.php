@@ -22,7 +22,7 @@ $signup_Age=ageCalculator($DOB);
 $sql = "INSERT INTO student_signup  VALUES ('$username',
 '$password','$signup_email','$DOB','$signup_Age')";
          if(mysqli_query($conn, $sql)){
-             include "Login.html";
+             include "level.php";
   
          } else{
                       include 'Login.html';
