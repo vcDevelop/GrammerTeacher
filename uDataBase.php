@@ -20,7 +20,7 @@ $conn = mysqli_connect("localhost", "root", "", "test");
 }
 $signup_Age=ageCalculator($DOB);
 $sql = "INSERT INTO student_signup  VALUES ('$username',
-'$password','$signup_email','$DOB','$signup_Age')";
+'$password','$signup_email','$DOB','$signup_Age','')";
          if(mysqli_query($conn, $sql)){
              include "level.php";
   
